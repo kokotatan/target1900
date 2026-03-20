@@ -1,30 +1,27 @@
 export interface Section {
   id: number;
   name: string;
-  range: [number, number];
-  pageStart: number;
+  range: string;
 }
 
 export const SECTIONS: Section[] = [
-  { id: 1, name: 'Section 1', range: [1, 300], pageStart: 20 },
-  { id: 2, name: 'Section 2', range: [301, 700], pageStart: 82 },
-  { id: 3, name: 'Section 3', range: [701, 1000], pageStart: 162 },
-  { id: 4, name: 'Section 4', range: [1001, 1200], pageStart: 222 },
-  { id: 5, name: 'Section 5', range: [1201, 1500], pageStart: 262 },
-  { id: 6, name: 'Section 6', range: [1501, 1900], pageStart: 322 },
+  { id: 1, name: "Section 1", range: "1-100" },
+  { id: 2, name: "Section 2", range: "101-200" },
+  { id: 3, name: "Section 3", range: "201-300" },
+  { id: 4, name: "Section 4", range: "301-400" },
+  { id: 5, name: "Section 5", range: "401-500" },
+  { id: 6, name: "Section 6", range: "501-600" },
+  { id: 7, name: "Section 7", range: "601-700" },
+  { id: 8, name: "Section 8", range: "701-800" },
+  { id: 9, name: "Section 9", range: "801-900" },
+  { id: 10, name: "Section 10", range: "901-1000" },
+  { id: 11, name: "Section 11", range: "1001-1100" },
+  { id: 12, name: "Section 12", range: "1101-1200" },
+  { id: 13, name: "Section 13", range: "1201-1300" },
+  { id: 14, name: "Section 14", range: "1301-1400" },
+  { id: 15, name: "Section 15", range: "1401-1500" },
+  { id: 16, name: "Section 16", range: "1501-1600" },
+  { id: 17, name: "Section 17", range: "1601-1700" },
+  { id: 18, name: "Section 18", range: "1701-1800" },
+  { id: 19, name: "Section 19", range: "1801-1900" },
 ];
-
-export function getSectionForId(id: number): number {
-  const section = SECTIONS.find(s => id >= s.range[0] && id <= s.range[1]);
-  return section ? section.id : SECTIONS[SECTIONS.length - 1].id;
-}
-
-export function getPageForId(id: number): number {
-  const section = SECTIONS.find(s => id >= s.range[0] && id <= s.range[1]);
-  if (!section) return 0;
-  
-  // Calculate page based on offset from section start
-  // Each page typically contains 5 words in Target 1900
-  const offset = id - section.range[0];
-  return section.pageStart + Math.floor(offset / 5);
-}

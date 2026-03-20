@@ -18,7 +18,7 @@ export const ALL_WORDS: Word[] = (wordsData as any[]).map(w => ({
   partOfSpeech: w.partOfSpeech || "n/a",
   example: w.example || "No example available.",
   exampleMeaning: w.exampleMeaning || "例文なし",
-  sectionId: Math.floor((w.id - 1) / 100) + 1
+  sectionId: w.section || Math.floor((w.id - 1) / 100) + 1
 }));
 
 export const getSampleWords = (): Word[] => {
