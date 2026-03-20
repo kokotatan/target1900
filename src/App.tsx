@@ -30,6 +30,17 @@ const App: React.FC = () => {
 
   const progressPercentage = (masteredIds.length / allWords.length) * 100;
 
+  const getMasteryRank = () => {
+    if (progressPercentage >= 100) return { label: 'GOD', color: 'text-red-600' };
+    if (progressPercentage >= 80) return { label: 'LEGEND', color: 'text-red-500' };
+    if (progressPercentage >= 60) return { label: 'MASTER', color: 'text-orange-500' };
+    if (progressPercentage >= 40) return { label: 'EXPERT', color: 'text-yellow-600' };
+    if (progressPercentage >= 20) return { label: 'SCHOLAR', color: 'text-blue-600' };
+    return { label: 'NOVICE', color: 'text-gray-500' };
+  };
+
+  const rank = getMasteryRank();
+
   if (view !== 'dashboard') {
     return (
       <div className="min-h-screen flex flex-col kotaro-grid">
@@ -56,14 +67,20 @@ const App: React.FC = () => {
             <h2 className="text-2xl font-black uppercase tracking-tighter italic">
               Dashboard
             </h2>
-            <Badge variant="primary">Alpha v2.0</Badge>
+            <Badge variant="primary">Alpha v2.5</Badge>
           </div>
           
-          <Card variant="accent" title="Current Progress">
+          <Card variant="accent" title="Current Progress" className={reviewIds.length > 20 ? "review-alert" : ""}>
             <div className="space-y-4">
-              <div className="flex justify-between items-baseline">
-                <span className="text-4xl font-black italic">{masteredIds.length}/{allWords.length}</span>
-                <span className="text-xs font-bold opacity-50 uppercase tracking-widest">Words Mastered</span>
+              <div className="flex justify-between items-start">
+                <div>
+                  <div className="text-4xl font-black italic mb-1">{masteredIds.length}/{allWords.length}</div>
+                  <div className="text-xs font-bold opacity-50 uppercase tracking-widest">Words Mastered</div>
+                </div>
+                <div className="text-right">
+                  <div className={`text-2xl font-black tracking-tighter italic ${rank.color}`}>{rank.label}</div>
+                  <div className="text-[10px] font-bold opacity-50 uppercase tracking-widest">Mastery Rank</div>
+                </div>
               </div>
               <div className="h-4 border-2 border-black bg-white overflow-hidden" style={{ borderRadius: 0 }}>
                 <div 
@@ -82,7 +99,7 @@ const App: React.FC = () => {
           <div className="grid grid-cols-2 gap-4">
             <Button 
               variant="primary" 
-              className="w-full"
+              className="w-full h-16 text-lg"
               onClick={() => {
                 const firstIncompleteSection = SECTIONS.find(s => {
                   const sectionWords = allWords.filter(w => w.sectionId === s.id);
@@ -99,11 +116,17 @@ const App: React.FC = () => {
             </Button>
             <Button 
               variant="secondary" 
-              className="w-full"
+              className={`w-full h-16 text-lg ${reviewIds.length > 0 ? "relative" : ""}`}
               onClick={() => setView('review')}
               disabled={reviewIds.length === 0}
             >
               Review ({reviewIds.length})
+              {reviewIds.length > 0 && (
+                <span className="absolute -top-2 -right-2 flex h-6 w-6">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-6 w-6 bg-red-500 text-[10px] items-center justify-center text-white font-bold">!</span>
+                </span>
+              )}
             </Button>
           </div>
         </section>
@@ -119,17 +142,25 @@ const App: React.FC = () => {
               const isFinished = sectionMastered === sectionWords.length;
 
               return (
-                <Card key={section.id} className="flex justify-between items-center py-4">
-                  <div>
+                <Card key={section.id} className="flex justify-between items-center py-4 relative overflow-hidden">
+                  <div className="z-10 bg-white/80 backdrop-blur-sm p-1 rounded-sm">
                     <div className="text-xs font-bold opacity-50 uppercase tracking-widest">Section {section.id}</div>
                     <div className="text-lg font-black uppercase tracking-tight">{section.name}</div>
                     <div className="text-[10px] font-bold opacity-60">
                       {sectionMastered} / {sectionWords.length} Words
                     </div>
                   </div>
+                  
+                  {isFinished && (
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none opacity-20">
+                      <div className="stamp-badge text-4xl">CLEARED</div>
+                    </div>
+                  )}
+
                   <Button 
                     variant={isFinished ? "outline" : "primary"} 
                     size="sm"
+                    className="z-10"
                     onClick={() => {
                       setCurrentSectionId(section.id);
                       setView('study');
