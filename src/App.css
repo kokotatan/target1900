@@ -1,0 +1,19 @@
+.hero-diagonal {
+  clip-path: polygon(0 0, 100% 0, 100% 85%, 0% 100%);
+  background: var(--bg-sub);
+  border-bottom: 2px solid var(--border);
+}
+
+.text-sharp {
+  text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+}
+
+.btn-hover-effect:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px var(--accent);
+}
+
+.kotaro-grid {
+  background-size: 20px 20px;
+  background-image: radial-gradient(circle, #ddd 1px, transparent 1px);
+}

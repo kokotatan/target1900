@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+
+:root {
+  /* Kotaro Design Lab: Sharp & Premium Theme */
+  --accent: #FF0000;           /* Pure Sharp Red */
+  --accent-secondary: #000000; /* Pure Black */
+  --accent-bg: #FFFFFF;
+  --bg-main: #FFFFFF;
+  --bg-sub: #F0F0F0;
+  --border: #000000;
+  --text-h: #000000;
+  --text-p: #333333;
+  --radius-none: 0px;          /* Critical: All corners 0 */
+  --shadow-sharp: 4px 4px 0px #000000;
+  --transition: 0.1s ease-in-out;
+}
+
+[data-theme='dark'] {
+  --accent: #FF2222;
+  --accent-secondary: #FFFFFF;
+  --bg-main: #0A0A0A;
+  --bg-sub: #1A1A1A;
+  --border: #FFFFFF;
+  --text-h: #FFFFFF;
+  --text-p: #CCCCCC;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Outfit', 'Noto Sans JP', sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-p);
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+  border-left: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+}
+
+@keyframes correct-flash {
+  0% { background-color: transparent; }
+  30% { background-color: #d4f7b0; }
+  100% { background-color: transparent; }
+}
+
+@keyframes wrong-shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(6px); }
+}
+
+@keyframes pop-in {
+  0% { transform: scale(0.8); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.animate-correct { animation: correct-flash 0.6s ease; }
+.animate-wrong { animation: wrong-shake 0.4s ease; }
+.animate-pop { animation: pop-in 0.2s ease; }
